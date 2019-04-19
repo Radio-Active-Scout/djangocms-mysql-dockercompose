@@ -1,0 +1,15 @@
+# These dependencies are brought in by django CMS, but if you want to
+# lock-in their version, specify them
+Django==2.1
+
+django-treebeard==4.3
+django-sekizai==0.8.2
+django-classy-tags==0.7.2
+djangocms-admin-style==1.2
+six==1.9.0
+
+# Optional, recommended packages
+Pillow>=2
+django-filer==0.9.9
+cmsplugin-filer==0.10.1
+django-reversion==1.8.5

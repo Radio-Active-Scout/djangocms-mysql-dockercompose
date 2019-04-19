@@ -1,0 +1,47 @@
+version: "3"
+services:
+  django-cms:
+    build: ./bin/django-cms
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      sitename: test
+      MYSQL_ROOT_PASSWORD: beaversAreCuteRoot
+      MYSQL_DATABASE: cms
+      MYSQL_USER: cmsuser
+      MYSQL_PASSWORD: beaversAreCute
+    links:
+      - mysql:mysql
+    volumes:
+      - ${DJANGO_DATA_DIR-./data/DJANGO}:/app/
+    depends_on:
+      - mysql
+
+
+  mysql:
+    build: ./bin/mysql
+    container_name: 'db_django-cms'
+    ports:
+      - "8001:3306"
+    volumes:
+      - ${MYSQL_DATA_DIR-./data/mysql}:/var/lib/mysql
+      - ${MYSQL_LOG_DIR-./logs/mysql}:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: beaversAreCuteRoot
+      MYSQL_DATABASE: cms
+      MYSQL_USER: cmsuser
+      MYSQL_PASSWORD: beaversAreCute
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: 'phpmyadmin_django-cms'
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - '8002:80'
+    volumes:
+      - /sessions
