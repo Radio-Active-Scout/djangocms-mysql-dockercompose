@@ -10,6 +10,11 @@ The reason for building this was that there was no Djangocms with python3 and my
 This is important, since the sqlite is not optimal for cms hosting (at least in my oppinion).
 This build is certainly not meant to be used as a live server, but rather for developing at near real conditions,
 with mysql and phpmyadmin for ease of bugfixing.
+##Why to not use divio's service
+Not many, besides the obvious limitations of divio (Free tier: 512 mb workspace, which should be enough for development. ) 
+The main reason is I just like to keep my independence, and therefore i created this.
+I do recommend using divio for deployment though.
+
 
 # Notes
 This build exposes the raw data of the containers to the user, so that you can word directly within the files.
