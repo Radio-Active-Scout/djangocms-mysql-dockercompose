@@ -3,7 +3,7 @@ services:
   django-cms:
     build: ./bin/django-cms
     ports:
-      - "8000:8000"
+      - "8080:8000"
     restart: always
     environment:
       sitename: test
