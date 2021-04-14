@@ -1,47 +1,43 @@
 version: "3"
+
 services:
-  django-cms:
-    build: ./bin/django-cms
-    ports:
-      - "8080:8000"
+  db:
+    build: mysql/
+    image: mysqlcustom
+    volumes:
+      - db_data:/var/lib/mysql
     restart: always
-    environment:
-      sitename: test
-      MYSQL_ROOT_PASSWORD: beaversAreCuteRoot
-      MYSQL_DATABASE: cms
-      MYSQL_USER: cmsuser
-      MYSQL_PASSWORD: beaversAreCute
-    links:
-      - mysql:mysql
+    env_file: .env
+    healthcheck:
+      test: "mysql --user=root --password=root-django --execute \"SHOW DATABASES;\""
+      interval: 10s
+      timeout: 30s
+      retries: 10
+  
+  django-cms:
+    build: .
+    env_file: .env
     volumes:
-      - ${DJANGO_DATA_DIR-./data/DJANGO}:/app/
-    depends_on:
-      - mysql
-
-
-  mysql:
-    build: ./bin/mysql
-    container_name: 'db_django-cms'
+      - .:/app
     ports:
-      - "8001:3306"
-    volumes:
-      - ${MYSQL_DATA_DIR-./data/mysql}:/var/lib/mysql
-      - ${MYSQL_LOG_DIR-./logs/mysql}:/var/log/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: beaversAreCuteRoot
-      MYSQL_DATABASE: cms
-      MYSQL_USER: cmsuser
-      MYSQL_PASSWORD: beaversAreCute
-
+      - '$APP_PORT:8000'
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+    
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: 'phpmyadmin_django-cms'
     links:
-      - mysql
+      - db
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: db
       PMA_PORT: 3306
     ports:
-      - '8002:80'
+      - '$PMAaccess_PORT:80'
     volumes:
       - /sessions
+volumes:
+  db_data: {}
