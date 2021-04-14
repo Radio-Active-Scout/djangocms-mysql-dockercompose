@@ -1,9 +1,11 @@
 # These dependencies are brought in by django CMS, but if you want to
 # lock-in their version, specify them
-Django==2.1.8
+Django>=3.0,<4.0
 
 # database
+django-mysql
 mysqlclient
+django-environ
 #mysql-python
 
 # django CMS support software
