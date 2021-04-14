@@ -14,7 +14,7 @@ services:
       timeout: 30s
       retries: 10
   
-  django-cms:
+  appengine:
     build: .
     env_file: .env
     volumes:
@@ -26,7 +26,6 @@ services:
         condition: service_healthy
     links:
       - db
-    
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: 'phpmyadmin_django-cms'
