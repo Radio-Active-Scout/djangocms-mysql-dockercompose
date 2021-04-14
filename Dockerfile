@@ -2,11 +2,10 @@
 # Dockerfile for django-cms
 #
 
-FROM python:3.5
+FROM python:3
 ENV PYTHONBUFFERED=1
 WORKDIR /app
 COPY requirements.txt /app/
-COPY setup.sh /app/setup.sh
 RUN pip install -r requirements.txt
 
 # Add mysql to the project:
@@ -15,5 +14,4 @@ RUN pip install -r requirements.txt
 # RUN pip install djangocms-installer
 
 COPY . /app/
-RUN chmod +x /app/setup.sh
-RUN /bin/bash /app/setup.sh
+CMD ["python", "radioactivescout/manage.py", "runserver", "0.0.0.0:8000"]
