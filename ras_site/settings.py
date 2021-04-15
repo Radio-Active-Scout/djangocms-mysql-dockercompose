@@ -83,6 +83,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ras_site.wsgi.application'
 
+SITE_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
